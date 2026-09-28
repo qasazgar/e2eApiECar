@@ -8,6 +8,8 @@ collections:
     path: "collections/E-car"
   - name: "VOD"
     path: "../../APIVOD/apiVoD"
+  - name: "E-car"
+    path: "collections"
 
 specs:
 
