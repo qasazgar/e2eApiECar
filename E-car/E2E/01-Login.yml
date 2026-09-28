@@ -5,7 +5,7 @@ info:
 
 http:
   method: POST
-  url: https://ecar-dev.dpsb.ir/livewire-becf286a/update
+  url: "{{ecarURL}}/livewire-becf286a/update"
   headers:
     - name: Cookie
       value: "{{Access}}"
@@ -90,6 +90,20 @@ runtime:
           expect(res.responseTime ).to.be.below(500);
           
         });
+
+        const body = res.getBody();
+
+        // The Livewire snapshot is a JSON *string*, so parse it first
+        const component = body.components[0];
+        const snapshotStr = component.snapshot;
+        const snapshot = JSON.parse(snapshotStr);
+
+        // Save to the active environment
+        bru.setEnvVar("snapshot", snapshotStr);            // raw snapshot string
+
+
+        // Optional: confirm it worked
+        console.log("componentId:", bru.getEnvVar("componentId"));
 
 settings:
   encodeUrl: true

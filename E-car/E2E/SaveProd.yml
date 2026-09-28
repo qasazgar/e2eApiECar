@@ -1,0 +1,81 @@
+info:
+  name: SaveProd
+  type: http
+  seq: 4
+
+http:
+  method: post
+  url: "{{ecarURL}}/livewire-becf286a/update"
+  headers:
+    - name: accept
+      value: "*/*"
+    - name: content-type
+      value: application/json
+    - name: Cookie
+      value: "{{Access}}"
+    - name: origin
+      value: "{{ecarURL}}"
+    - name: referer
+      value: "{{ecarURL}}/admin/products/create"
+    - name: x-livewire
+      value: "1"
+    - name: user-agent
+      value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36
+  body:
+    type: json
+    data: |-
+      {}
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: before-request
+      code: |-
+        const snapshot = bru.getEnvVar("snapshot");
+        const token = bru.getEnvVar("csrfToken");
+
+        if (!snapshot || !token) {
+          throw new Error("Missing snapshot/csrfToken - run SelectProd and LiveUpdateProd first");
+        }
+
+        req.setBody({
+          _token: token,
+          components: [
+            {
+              snapshot: snapshot,
+              updates: {
+                "data.name": "Sedan"
+              },
+              calls: [
+                { method: "create", params: [], metadata: {} }
+              ]
+            }
+          ]
+        });
+    - type: after-response
+      code: |-
+        // Livewire answers 200 even when nothing was saved, so check the redirect
+        const comp = res.body.components[0];
+        const effects = comp.effects || {};
+        const errors = JSON.parse(comp.snapshot).memo.errors;
+
+        console.log("validation errors:", JSON.stringify(errors));
+        console.log("redirect:", effects.redirect);
+
+        test("Product created - redirected to edit page", () => {
+          expect(res.status).to.equal(200);
+          expect(effects.redirect, "no redirect = not saved, see validation errors in console").to.match(/\/admin\/products\/\d+\/edit/);
+        });
+
+        if (effects.redirect) {
+          bru.setEnvVar("productEditUrl", effects.redirect);
+          const m = effects.redirect.match(/products\/(\d+)\/edit/);
+          if (m) bru.setEnvVar("productId", m[1]);
+        }
+
+settings:
+  encodeUrl: false
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

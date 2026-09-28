@@ -10,6 +10,8 @@ collections:
     path: "../../APIVOD/apiVoD"
   - name: "E-car"
     path: "collections"
+  - name: "E-car"
+    path: "E2E"
 
 specs:
 

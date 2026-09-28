@@ -1,11 +1,11 @@
 info:
-  name: Products
+  name: SelectProd
   type: http
   seq: 2
 
 http:
   method: get
-  url: https://ecar-dev.dpsb.ir/admin/products
+  url: "{{ecarURL}}/admin/products/create"
   headers:
     - name: accept
       value: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
@@ -20,7 +20,7 @@ http:
     - name: priority
       value: u=0, i
     - name: referer
-      value: https://ecar-dev.dpsb.ir/admin/products
+      value: "{{ecarURL}}/admin/products"
     - name: sec-ch-ua
       value: '"Chromium";v="154", "Google Chrome";v="154", "Not A(Brand";v="99"'
     - name: sec-ch-ua-mobile
@@ -45,31 +45,33 @@ runtime:
   scripts:
     - type: after-response
       code: |-
-        const responseTime = res.getResponseTime();
+        const html = String(res.getBody());
 
+        const decode = (s) => s
+          .replace(/&quot;/g, '"')
+          .replace(/&#039;/g, "'")
+          .replace(/&lt;/g, "<")
+          .replace(/&gt;/g, ">")
+          .replace(/&amp;/g, "&");
 
+        const csrfMatch = html.match(/<meta name="csrf-token" content="([^"]+)"/);
+        const snaps = [...html.matchAll(/wire:snapshot="([^"]*)"/g)].map(m => decode(m[1]));
+        const pageSnap = snaps.find(s => s.includes("CreateProduct"));
 
-        const jsonData = res.getBody();
-
-        if (res.status === 200) {
-          test("The user logged in successfully", () => {
-            expect(res.status).to.equal(200);
-             console.log("The user logged in successfully");
-          });
-        } else {
-          test("The user is not logged in", () => {
-            expect(res.status).to.not.equal(200);
-            console.log("The user is not logged in");
-          });
-        }
-
-
-
-
-        test("Response time is less than 500ms", () => {
-          expect(res.responseTime ).to.be.below(500);
-          
+        test("The create product page is opened", () => {
+          expect(res.status).to.equal(200);
         });
+
+        test("CSRF token and CreateProduct snapshot found (user is logged in)", () => {
+          expect(csrfMatch, "csrf token not found - check the Access cookie / login").to.not.equal(null);
+          expect(pageSnap, "CreateProduct snapshot not found - check the URL and login").to.not.equal(undefined);
+        });
+
+        if (csrfMatch && pageSnap) {
+          bru.setEnvVar("csrfToken", csrfMatch[1]);
+          bru.setEnvVar("snapshot", pageSnap);
+          console.log("csrfToken and snapshot saved");
+        }
 
 settings:
   encodeUrl: false

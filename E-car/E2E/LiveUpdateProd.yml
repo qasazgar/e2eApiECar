@@ -1,0 +1,79 @@
+info:
+  name: LiveUpdateProd
+  type: http
+  seq: 3
+
+http:
+  method: post
+  url: "{{ecarURL}}/livewire-becf286a/update"
+  headers:
+    - name: accept
+      value: "*/*"
+    - name: content-type
+      value: application/json
+    - name: Cookie
+      value: "{{Access}}"
+    - name: origin
+      value: "{{ecarURL}}"
+    - name: referer
+      value: "{{ecarURL}}/admin/products/create"
+    - name: x-livewire
+      value: "1"
+    - name: user-agent
+      value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36
+  body:
+    type: json
+    data: |-
+      {}
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: before-request
+      code: |-
+        // Body is built here because the snapshot is a JSON string that must be sent untouched
+        const snapshot = bru.getEnvVar("snapshot");
+        const token = bru.getEnvVar("csrfToken");
+
+        if (!snapshot || !token) {
+          throw new Error("Missing snapshot/csrfToken - run SelectProd first");
+        }
+
+        req.setBody({
+          _token: token,
+          components: [
+            {
+              snapshot: snapshot,
+              updates: {
+                "data.code": "123654",
+                "data.product_type_id": "3"
+              },
+              calls: [
+                { method: "$commit", params: [], metadata: { type: "model.live" } }
+              ]
+            }
+          ]
+        });
+    - type: after-response
+      code: |-
+        test("Live update accepted", () => {
+          expect(res.status).to.equal(200);
+          expect(res.body.components, "no components in response (session or CSRF expired?)").to.be.an("array");
+        });
+
+        // Livewire returns a NEW snapshot after every call - always keep the latest one
+        const comp = res.body.components[0];
+        bru.setEnvVar("snapshot", comp.snapshot);
+
+        const data = JSON.parse(comp.snapshot).data.data[0];
+        test("Code and product type stored in component state", () => {
+          expect(data.code).to.equal("123654");
+          expect(String(data.product_type_id)).to.equal("3");
+        });
+
+settings:
+  encodeUrl: false
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

@@ -13,4 +13,26 @@ variables:
   - name: Snapshot
     value: '{\"data\":{\"data\":[{\"email\":null,\"password\":null,\"remember\":false},{\"s\":\"arr\"}],\"userUndertakingMultiFactorAuthentication\":null,\"mountedActions\":[[],{\"s\":\"arr\"}],\"defaultAction\":null,\"defaultActionArguments\":null,\"defaultActionContext\":null,\"defaultTableAction\":null,\"defaultTableActionRecord\":null,\"defaultTableActionArguments\":null,\"componentFileAttachments\":[[],{\"s\":\"arr\"}],\"areSchemaStateUpdateHooksDisabledForTesting\":false,\"discoveredSchemaNames\":[[\"form\",\"content\"],{\"s\":\"arr\"}]},\"memo\":{\"id\":\"3OaxBZVGmnxRhyv3e86V\",\"name\":\"Filament\\\\Auth\\\\Pages\\\\Login\",\"path\":\"admin\\/login\",\"method\":\"GET\",\"release\":\"a-a-a\",\"children\":[],\"scripts\":[],\"assets\":[],\"errors\":[],\"locale\":\"fa\",\"islands\":[]},\"checksum\":\"ec288f35c8c0fd554c5f6a0cc3f2ad31cbd60a6cbbefc7ab122c2c1c1f6ddcbe\"}'
   - name: randomCarName
-    value: نیسان جوک
+    value: تیبا
+  - name: checksum
+    value: 01678a24cb8f64d0bb52582a6e2e958183fa966d5635975ae2625970a31e2ec4
+  - name: componentId
+    value: 3OaxBZVGmnxRhyv3e86V
+  - name: redirectUrl
+    value: https://ecar-dev.dpsb.ir/admin
+  - name: xsrfTokenRaw
+    value: eyJpdiI6IlVubHZOM0diU21LckR6Skw0YjdMQmc9PSIsInZhbHVlIjoiS09mblpHMG84ZFBPcHFhdnBsSWhGVWlIOW9nMU14RENNaHRWYU5ZbEVDZjZyY0p0TGN2REtQVG8rR1ZXcmxtT0xDQVhNenNlNDNHeU94RlJleUdNWDNhcSs0endaaVVGOUhzdDA1bnpyWWxNWHFRRlI1VjlKMTR3Z0hnS21rQ0IiLCJtYWMiOiJjNzgzMDYzNWQ4MGZiYmI2MjAwYjEwM2ZmYWQ0NjUzZWI3MmI4MTZlOWMyYjYyZTBiNzIzMWE3ZjJmNjI0OTVlIiwidGFnIjoiIn0%3D
+  - name: xsrfToken
+    value: eyJpdiI6IlVubHZOM0diU21LckR6Skw0YjdMQmc9PSIsInZhbHVlIjoiS09mblpHMG84ZFBPcHFhdnBsSWhGVWlIOW9nMU14RENNaHRWYU5ZbEVDZjZyY0p0TGN2REtQVG8rR1ZXcmxtT0xDQVhNenNlNDNHeU94RlJleUdNWDNhcSs0endaaVVGOUhzdDA1bnpyWWxNWHFRRlI1VjlKMTR3Z0hnS21rQ0IiLCJtYWMiOiJjNzgzMDYzNWQ4MGZiYmI2MjAwYjEwM2ZmYWQ0NjUzZWI3MmI4MTZlOWMyYjYyZTBiNzIzMWE3ZjJmNjI0OTVlIiwidGFnIjoiIn0=
+  - name: sessionCookieName
+    value: samanh-frosh-khodro-session
+  - name: sessionCookie
+    value: eyJpdiI6IjhtSUtDamxrSmM4ZkZwZkluUE9WRGc9PSIsInZhbHVlIjoiaXdib1QyMnBVQlNCcWFYWUNFN0Z5YkVUT1NKejgxUXZtQmRxNC9ZZzdOOFlkSlpyUTB0cGJVWEZxamZNSmw0V3NFcEdZWURiNlR2SDZRdWgvR0lUUHl1T3BGakNjNitTSElHMU1GeDdoUUpJSGIwU1RKVkRIN3BLdWlJRzQ3bnkiLCJtYWMiOiJjZWRjYzE5MmQ3NGE4YjFkZjNjZjczZjcyMDhhMjJlNzRkNjM0ZGFjNGFlYzQ3YTc0NWM1YTEwYWQ0NjMyMGU0IiwidGFnIjoiIn0%3D
+  - name: cookieHeader
+    value: XSRF-TOKEN=eyJpdiI6IlVubHZOM0diU21LckR6Skw0YjdMQmc9PSIsInZhbHVlIjoiS09mblpHMG84ZFBPcHFhdnBsSWhGVWlIOW9nMU14RENNaHRWYU5ZbEVDZjZyY0p0TGN2REtQVG8rR1ZXcmxtT0xDQVhNenNlNDNHeU94RlJleUdNWDNhcSs0endaaVVGOUhzdDA1bnpyWWxNWHFRRlI1VjlKMTR3Z0hnS21rQ0IiLCJtYWMiOiJjNzgzMDYzNWQ4MGZiYmI2MjAwYjEwM2ZmYWQ0NjUzZWI3MmI4MTZlOWMyYjYyZTBiNzIzMWE3ZjJmNjI0OTVlIiwidGFnIjoiIn0%3D; samanh-frosh-khodro-session=eyJpdiI6IjhtSUtDamxrSmM4ZkZwZkluUE9WRGc9PSIsInZhbHVlIjoiaXdib1QyMnBVQlNCcWFYWUNFN0Z5YkVUT1NKejgxUXZtQmRxNC9ZZzdOOFlkSlpyUTB0cGJVWEZxamZNSmw0V3NFcEdZWURiNlR2SDZRdWgvR0lUUHl1T3BGakNjNitTSElHMU1GeDdoUUpJSGIwU1RKVkRIN3BLdWlJRzQ3bnkiLCJtYWMiOiJjZWRjYzE5MmQ3NGE4YjFkZjNjZjczZjcyMDhhMjJlNzRkNjM0ZGFjNGFlYzQ3YTc0NWM1YTEwYWQ0NjMyMGU0IiwidGFnIjoiIn0%3D
+  - name: ecarURL
+    value: https://ecar-dev.dpsb.ir
+  - name: csrfToken
+    value: 9gJL3uTfDwXHvNp2ul5zfVN3wTYQaihJze0rLVvl
+  - name: snapshot
+    value: '{"data":{"record":null,"data":[{"code":null,"product_type_id":null,"name":null,"description":null,"base_price_rial":null,"status":"draft","delivery_information":null},{"s":"arr"}],"previousUrl":"https:\/\/ecar-dev.dpsb.ir\/admin\/products","isCreating":false,"mountedActions":[[],{"s":"arr"}],"defaultAction":null,"defaultActionArguments":null,"defaultActionContext":null,"defaultTableAction":null,"defaultTableActionRecord":null,"defaultTableActionArguments":null,"componentFileAttachments":[[],{"s":"arr"}],"areSchemaStateUpdateHooksDisabledForTesting":false,"discoveredSchemaNames":[["form","content","headerWidgets","footerWidgets"],{"s":"arr"}],"parentRecord":null,"savedDataHash":null},"memo":{"id":"gRIFLkBSviECehpyUtUC","name":"App\\Filament\\Admin\\Resources\\Products\\Pages\\CreateProduct","path":"admin\/products\/create","method":"GET","release":"a-a-a","children":[],"scripts":[],"assets":[],"errors":[],"locale":"fa","islands":[]},"checksum":"3fdef7586fcdc7a885a94ccc81ca4ea9fe21e4994cfb6416dc7a8aaada7dc004"}'
