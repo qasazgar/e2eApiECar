@@ -23,36 +23,27 @@ http:
       value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36
   body:
     type: json
-    data: |-
-      {}
+    data: "{}"
   auth: inherit
 
 runtime:
   scripts:
     - type: before-request
       code: |-
-        // Body is built here because the snapshot is a JSON string that must be sent untouched
         const snapshot = bru.getEnvVar("snapshot");
         const token = bru.getEnvVar("csrfToken");
+        if (!snapshot || !token) throw new Error("Missing snapshot/csrfToken - run SelectProd first");
 
-        if (!snapshot || !token) {
-          throw new Error("Missing snapshot/csrfToken - run SelectProd first");
-        }
+        const code = String(Date.now()).slice(-9);   // unique every run
+        bru.setEnvVar("productCode", code);
 
         req.setBody({
           _token: token,
-          components: [
-            {
-              snapshot: snapshot,
-              updates: {
-                "data.code": "123654",
-                "data.product_type_id": "3"
-              },
-              calls: [
-                { method: "$commit", params: [], metadata: { type: "model.live" } }
-              ]
-            }
-          ]
+          components: [{
+            snapshot: snapshot,
+            updates: { "data.code": code, "data.product_type_id": "3" },
+            calls: [{ method: "$commit", params: [], metadata: { type: "model.live" } }]
+          }]
         });
     - type: after-response
       code: |-

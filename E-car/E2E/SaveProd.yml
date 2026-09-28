@@ -23,8 +23,7 @@ http:
       value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36
   body:
     type: json
-    data: |-
-      {}
+    data: "{}"
   auth: inherit
 
 runtime:
@@ -38,13 +37,49 @@ runtime:
           throw new Error("Missing snapshot/csrfToken - run SelectProd and LiveUpdateProd first");
         }
 
+        const vehicleNames = [
+          // body type
+          "سدان (Sedan)",
+          "هاچبک (Hatchback)",
+          "استیشن واگن (Station Wagon)",
+          "کوپه (Coupe)",
+          "کانورتیبل / رودستر (Convertible / Roadster)",
+          "شاسی‌بلند (SUV)",
+          "کراس‌اوور (Crossover)",
+          "وَن / مینی‌ون (Van / Minivan)",
+          "پیکاپ / وانت (Pickup Truck)",
+          "لیفت‌بک (Liftback)",
+          "اسپورت / سوپراسپرت (Sports Car / Supercar)",
+          // fuel / engine type
+          "بنزینی",
+          "دیزلی",
+          "گازسوز (CNG / LPG)",
+          "هیبریدی (Hybrid)",
+          "هیبریدی پلاگین (Plug-in Hybrid)",
+          "برقی (Electric / EV)",
+          "هیدروژنی (Fuel Cell)",
+          // gearbox
+          "دستی",
+          "اتوماتیک",
+          "دو کلاچه (DCT)",
+          "بی‌پله (CVT)",
+          // drive system
+          "دیفرانسیل جلو (FWD)",
+          "دیفرانسیل عقب (RWD)",
+          "چهار چرخ محرک (AWD / 4WD)"
+        ];
+
+        const productName = vehicleNames[Math.floor(Math.random() * vehicleNames.length)];
+        bru.setEnvVar("productName", productName);
+        console.log("Random product name:", productName);
+
         req.setBody({
           _token: token,
           components: [
             {
               snapshot: snapshot,
               updates: {
-                "data.name": "Sedan"
+                "data.name": productName
               },
               calls: [
                 { method: "create", params: [], metadata: {} }
@@ -54,17 +89,22 @@ runtime:
         });
     - type: after-response
       code: |-
-        // Livewire answers 200 even when nothing was saved, so check the redirect
         const comp = res.body.components[0];
         const effects = comp.effects || {};
-        const errors = JSON.parse(comp.snapshot).memo.errors;
+        const memo = JSON.parse(comp.snapshot).memo;
 
-        console.log("validation errors:", JSON.stringify(errors));
-        console.log("redirect:", effects.redirect);
+        console.log("memo.errors:", JSON.stringify(memo.errors));
+
+        // fallback: pull error texts out of the re-rendered form
+        if (effects.html) {
+          const msgs = [...effects.html.matchAll(/<[^>]*class="[^"]*error[^"]*"[^>]*>\s*([^<]{3,})</g)]
+            .map(m => m[1].trim());
+          console.log("form errors:", JSON.stringify(msgs));
+        }
 
         test("Product created - redirected to edit page", () => {
           expect(res.status).to.equal(200);
-          expect(effects.redirect, "no redirect = not saved, see validation errors in console").to.match(/\/admin\/products\/\d+\/edit/);
+          expect(effects.redirect, "no redirect = not saved, see console").to.match(/\/admin\/products\/\d+\/edit/);
         });
 
         if (effects.redirect) {

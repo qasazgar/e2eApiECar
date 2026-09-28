@@ -33,6 +33,12 @@ variables:
   - name: ecarURL
     value: https://ecar-dev.dpsb.ir
   - name: csrfToken
-    value: 9gJL3uTfDwXHvNp2ul5zfVN3wTYQaihJze0rLVvl
+    value: WskjViN5WLt897qUwjREDfs3dhbP7CCIG6IpDMlP
   - name: snapshot
-    value: '{"data":{"record":null,"data":[{"code":null,"product_type_id":null,"name":null,"description":null,"base_price_rial":null,"status":"draft","delivery_information":null},{"s":"arr"}],"previousUrl":"https:\/\/ecar-dev.dpsb.ir\/admin\/products","isCreating":false,"mountedActions":[[],{"s":"arr"}],"defaultAction":null,"defaultActionArguments":null,"defaultActionContext":null,"defaultTableAction":null,"defaultTableActionRecord":null,"defaultTableActionArguments":null,"componentFileAttachments":[[],{"s":"arr"}],"areSchemaStateUpdateHooksDisabledForTesting":false,"discoveredSchemaNames":[["form","content","headerWidgets","footerWidgets"],{"s":"arr"}],"parentRecord":null,"savedDataHash":null},"memo":{"id":"gRIFLkBSviECehpyUtUC","name":"App\\Filament\\Admin\\Resources\\Products\\Pages\\CreateProduct","path":"admin\/products\/create","method":"GET","release":"a-a-a","children":[],"scripts":[],"assets":[],"errors":[],"locale":"fa","islands":[]},"checksum":"3fdef7586fcdc7a885a94ccc81ca4ea9fe21e4994cfb6416dc7a8aaada7dc004"}'
+    value: '{"data":{"record":null,"data":[{"code":"602240437","product_type_id":"3","name":null,"description":null,"base_price_rial":null,"status":"draft","delivery_information":null},{"s":"arr"}],"previousUrl":"https:\/\/ecar-dev.dpsb.ir\/admin\/products","isCreating":false,"mountedActions":[[],{"s":"arr"}],"defaultAction":null,"defaultActionArguments":null,"defaultActionContext":null,"defaultTableAction":null,"defaultTableActionRecord":null,"defaultTableActionArguments":null,"componentFileAttachments":[[],{"s":"arr"}],"areSchemaStateUpdateHooksDisabledForTesting":false,"discoveredSchemaNames":[["form","content","headerWidgets","footerWidgets"],{"s":"arr"}],"parentRecord":null,"savedDataHash":null},"memo":{"id":"uZDSu5NLnpWPn1ohAszk","name":"App\\Filament\\Admin\\Resources\\Products\\Pages\\CreateProduct","path":"admin\/products\/create","method":"GET","release":"a-a-a","children":[],"scripts":[],"assets":[],"errors":[],"locale":"fa","islands":[]},"checksum":"3eaaa54b2291ca1f25ae699ecc292cc11676aaf4440e76930e4e88e81d0ae071"}'
+  - name: productCode
+    value: "602240437"
+  - name: productEditUrl
+    value: https://ecar-dev.dpsb.ir/admin/products/8/edit
+  - name: productId
+    value: "8"
