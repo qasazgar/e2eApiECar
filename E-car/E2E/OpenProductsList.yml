@@ -1,0 +1,71 @@
+info:
+  name: OpenProductsList
+  type: http
+  seq: 5
+
+http:
+  method: get
+  url: "{{ecarURL}}/admin/products"
+  headers:
+    - name: accept
+      value: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+    - name: accept-language
+      value: en-US,en;q=0.9
+    - name: cache-control
+      value: no-cache
+    - name: Cookie
+      value: "{{Access}}"
+    - name: pragma
+      value: no-cache
+    - name: referer
+      value: "{{ecarURL}}/admin/products"
+    - name: sec-fetch-dest
+      value: document
+    - name: sec-fetch-mode
+      value: navigate
+    - name: sec-fetch-site
+      value: same-origin
+    - name: upgrade-insecure-requests
+      value: "1"
+    - name: user-agent
+      value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        const html = String(res.getBody());
+
+        const decode = (s) => s
+          .replace(/&quot;/g, '"')
+          .replace(/&#039;/g, "'")
+          .replace(/&lt;/g, "<")
+          .replace(/&gt;/g, ">")
+          .replace(/&amp;/g, "&");
+
+        const csrfMatch = html.match(/<meta name="csrf-token" content="([^"]+)"/);
+        const snaps = [...html.matchAll(/wire:snapshot="([^"]*)"/g)].map(m => decode(m[1]));
+        const listSnap = snaps.find(s => s.includes("ListProducts"));
+
+        test("Products list page is opened", () => {
+          expect(res.status).to.equal(200);
+        });
+
+        test("CSRF token and ListProducts snapshot found (user is logged in)", () => {
+          expect(csrfMatch, "csrf token not found - check the Access cookie / login").to.not.equal(null);
+          expect(listSnap, "ListProducts snapshot not found - check the URL and login").to.not.equal(undefined);
+        });
+
+        if (csrfMatch && listSnap) {
+          bru.setEnvVar("csrfToken", csrfMatch[1]);
+          bru.setEnvVar("listSnapshot", listSnap);
+          console.log("csrfToken and listSnapshot saved");
+        }
+
+settings:
+  encodeUrl: false
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

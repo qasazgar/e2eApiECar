@@ -1,0 +1,106 @@
+info:
+  name: Activation2
+  type: http
+  seq: 7
+
+http:
+  method: post
+  url: "{{ecarURL}}/livewire-becf286a/update"
+  headers:
+    - name: accept
+      value: "*/*"
+    - name: accept-language
+      value: en-US,en;q=0.9
+    - name: cache-control
+      value: no-cache
+    - name: content-type
+      value: application/json
+    - name: Cookie
+      value: "{{Access}}"
+    - name: origin
+      value: "{{ecarURL}}"
+    - name: pragma
+      value: no-cache
+    - name: priority
+      value: u=1, i
+    - name: referer
+      value: "{{ecarURL}}/admin/products"
+    - name: sec-ch-ua
+      value: '"Chromium";v="154", "Google Chrome";v="154", "Not A(Brand";v="99"'
+    - name: sec-ch-ua-mobile
+      value: ?0
+    - name: sec-ch-ua-platform
+      value: '"Windows"'
+    - name: sec-fetch-dest
+      value: empty
+    - name: sec-fetch-mode
+      value: cors
+    - name: sec-fetch-site
+      value: same-origin
+    - name: user-agent
+      value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36
+    - name: x-livewire
+      value: "1"
+  body:
+    type: json
+    data: |-
+      {}
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: before-request
+      code: |-
+        // Step 2 of activation: confirm the modal that Activation1 opened
+        const snapshot = bru.getEnvVar("activationSnapshot");
+        const token = bru.getEnvVar("csrfToken");
+
+        if (!snapshot || !token) {
+          throw new Error("Missing activationSnapshot/csrfToken - run OpenProductsList and Activation1 first");
+        }
+
+        req.setBody({
+          _token: token,
+          components: [
+            {
+              snapshot: snapshot,
+              updates: {},
+              calls: [
+                { method: "callMountedAction", params: [], metadata: {} }
+              ]
+            }
+          ]
+        });
+    - type: after-response
+      code: |-
+        test("Activation request accepted", () => {
+          expect(res.status).to.equal(200);
+          expect(res.body.components, "no components in response (session or CSRF expired?)").to.be.an("array");
+        });
+
+        const comp = res.body.components[0];
+        const effects = comp.effects || {};
+        const memo = JSON.parse(comp.snapshot).memo;
+
+        console.log("errors:", JSON.stringify(memo.errors));
+        console.log("effects keys:", Object.keys(effects).join(", "));
+        console.log("dispatches:", JSON.stringify(effects.dispatches || []).slice(0, 500));
+
+        test("No validation errors", () => {
+          expect(Object.keys(memo.errors || {}).length).to.equal(0);
+        });
+
+        // After a successful action Filament closes the modal, so "activate" is no longer mounted
+        test("Activate action executed (modal closed)", () => {
+          expect(comp.snapshot.includes('"name":"activate"')).to.equal(false);
+        });
+
+        // keep the fresh list snapshot for the next action in the same run
+        bru.setEnvVar("listSnapshot", comp.snapshot);
+
+settings:
+  encodeUrl: false
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

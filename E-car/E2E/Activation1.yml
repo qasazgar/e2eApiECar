@@ -1,0 +1,112 @@
+info:
+  name: Activation1
+  type: http
+  seq: 6
+
+http:
+  method: post
+  url: "{{ecarURL}}/livewire-becf286a/update"
+  headers:
+    - name: accept
+      value: "*/*"
+    - name: accept-language
+      value: en-US,en;q=0.9
+    - name: cache-control
+      value: no-cache
+    - name: content-type
+      value: application/json
+    - name: Cookie
+      value: "{{Access}}"
+    - name: origin
+      value: "{{ecarURL}}"
+    - name: pragma
+      value: no-cache
+    - name: priority
+      value: u=1, i
+    - name: referer
+      value: "{{ecarURL}}/admin/products"
+    - name: sec-ch-ua
+      value: '"Chromium";v="154", "Google Chrome";v="154", "Not A(Brand";v="99"'
+    - name: sec-ch-ua-mobile
+      value: ?0
+    - name: sec-ch-ua-platform
+      value: '"Windows"'
+    - name: sec-fetch-dest
+      value: empty
+    - name: sec-fetch-mode
+      value: cors
+    - name: sec-fetch-site
+      value: same-origin
+    - name: user-agent
+      value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36
+    - name: x-livewire
+      value: "1"
+  body:
+    type: json
+    data: |-
+      {}
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: before-request
+      code: |-
+        // Step 1 of activation: click the "activate" action on the row of the product created by SaveProd
+        const listSnapshot = bru.getEnvVar("listSnapshot");
+        const token = bru.getEnvVar("csrfToken");
+        const productId = bru.getEnvVar("productId");
+
+        if (!listSnapshot || !token) {
+          throw new Error("Missing listSnapshot/csrfToken - run OpenProductsList first");
+        }
+        if (!productId) {
+          throw new Error("Missing productId - run SaveProd first (it saves the new product id)");
+        }
+
+        req.setBody({
+          _token: token,
+          components: [
+            {
+              snapshot: listSnapshot,
+              updates: {},
+              calls: [
+                {
+                  method: "mountAction",
+                  params: [
+                    "activate",
+                    {},
+                    { recordKey: String(productId), table: true }
+                  ],
+                  metadata: {}
+                }
+              ]
+            }
+          ]
+        });
+    - type: after-response
+      code: |-
+        const productId = String(bru.getEnvVar("productId"));
+
+        test("Activate action mounted (request accepted)", () => {
+          expect(res.status).to.equal(200);
+          expect(res.body.components, "no components in response (session or CSRF expired?)").to.be.an("array");
+        });
+
+        const comp = res.body.components[0];
+
+        // Livewire returns a NEW snapshot - it now contains the mounted "activate" action
+        bru.setEnvVar("activationSnapshot", comp.snapshot);
+
+        test("Activate action is mounted for the new product", () => {
+          expect(comp.snapshot.includes('"name":"activate"')).to.equal(true);
+          expect(comp.snapshot.includes('"recordKey":"' + productId + '"')).to.equal(true);
+        });
+
+        console.log("Activate action mounted for product", productId);
+
+settings:
+  encodeUrl: false
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
