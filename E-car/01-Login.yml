@@ -1,0 +1,99 @@
+info:
+  name: 01-Login
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: https://ecar-dev.dpsb.ir/livewire-becf286a/update
+  headers:
+    - name: Cookie
+      value: "{{Access}}"
+    - name: accept
+      value: "*/*"
+    - name: accept-language
+      value: en-US,en;q=0.9
+    - name: content-type
+      value: application/json
+    - name: origin
+      value: https://ecar-dev.dpsb.ir
+    - name: priority
+      value: u=1, i
+    - name: referer
+      value: https://ecar-dev.dpsb.ir/admin/login
+    - name: sec-ch-ua
+      value: '"Chromium";v="154", "Google Chrome";v="154", "Not A(Brand";v="99"'
+    - name: sec-ch-ua-mobile
+      value: ?0
+    - name: sec-ch-ua-platform
+      value: '"Windows"'
+    - name: sec-fetch-dest
+      value: empty
+    - name: sec-fetch-mode
+      value: cors
+    - name: sec-fetch-site
+      value: same-origin
+    - name: user-agent
+      value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36
+    - name: x-livewire
+      value: "1"
+  body:
+    type: json
+    data: |-
+      {
+        "_token": "{{Token}}",
+        "components": [
+          {
+            "snapshot": "{{Snapshot}}",
+            "updates": {
+              "data.email": "{{email}}",
+              "data.password": "{{password}}"
+            },
+            "calls": [
+              {
+                "method": "{{method}}",
+                "params": [],
+                "metadata": {}
+              }
+            ]
+          }
+        ]
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        const responseTime = res.getResponseTime();
+
+
+
+        const jsonData = res.getBody();
+
+        if (res.status === 200) {
+          test("The user logged in successfully", () => {
+            expect(res.status).to.equal(200);
+             console.log("The user logged in successfully");
+          });
+        } else {
+          test("The user is not logged in", () => {
+            expect(res.status).to.not.equal(200);
+            console.log("The user is not logged in");
+          });
+        }
+
+
+
+
+        test("Response time is less than 500ms", () => {
+          expect(res.responseTime ).to.be.below(500);
+          
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

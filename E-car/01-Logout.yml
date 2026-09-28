@@ -1,0 +1,86 @@
+info:
+  name: 01-Logout
+  type: http
+  seq: 4
+
+http:
+  method: post
+  url: https://ecar-dev.dpsb.ir/admin/logout
+  headers:
+    - name: accept
+      value: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+    - name: accept-language
+      value: en-US,en;q=0.9
+    - name: cache-control
+      value: max-age=0
+    - name: content-type
+      value: application/x-www-form-urlencoded
+    - name: Cookie
+      value: amplitude_idundefineddpsb.ir=eyJvcHRPdXQiOmZhbHNlLCJzZXNzaW9uSWQiOm51bGwsImxhc3RFdmVudFRpbWUiOm51bGwsImV2ZW50SWQiOjAsImlkZW50aWZ5SWQiOjAsInNlcXVlbmNlTnVtYmVyIjowfQ==; ajs_user_id=b9d894e548f9d020b13577518957928e635161cb922be28b22da64be104b54fb; ajs_anonymous_id=167615b8-5cce-450b-a647-e2bf0ea9966b; ajs_group_id=BEW1-OXXH-RIZ6-B6K4; amplitude_id_cf620211dc906be4ab7c92f52766759ddpsb.ir=eyJkZXZpY2VJZCI6ImYyMjFhMDNhLTc0N2MtNGJjMi1iMDcxLTlkMTk0NjhiYWZjZVIiLCJ1c2VySWQiOiJiOWQ4OTRlNTQ4ZjlkMDIwYjEzNTc3NTE4OTU3OTI4ZTYzNTE2MWNiOTIyYmUyOGIyMmRhNjRiZTEwNGI1NGZiIiwib3B0T3V0IjpmYWxzZSwic2Vzc2lvbklkIjoxNzkwNTExNzIyMDUzLCJsYXN0RXZlbnRUaW1lIjoxNzkwNTExNzcxODIzLCJldmVudElkIjo4LCJpZGVudGlmeUlkIjo0LCJzZXF1ZW5jZU51bWJlciI6MTJ9; dotone_locale=fa; XSRF-TOKEN=eyJpdiI6ImZ0UUtBeVZOYVdoaVJhRW0wWW0wY0E9PSIsInZhbHVlIjoidEpjTGc5aWg1RmZ6eW94Tml4OEZDdTA0Y3pJVUxhbVRXYVB3YzNYazFXcUZlOWcxMkRXckRVMFVvZG1qK3R5SkFWYWJEVHpTQTUzdVRQY0tDenA3Z0IrRElocnB0aDZQM2hNRFl3amlHQ2hURVRaVTlGZkxOTUdhY0N4T3owbW4iLCJtYWMiOiI5MzczMmNjZmZhZDUyZGQzMWMyZTQ5M2JiOTQxZjlhZWM0NTEyNmVhNTk2OTU4YzJkMDNlYzUwODFjZTE3YzkzIiwidGFnIjoiIn0%3D; samanh-frosh-khodro-session=eyJpdiI6IlRQUnBXV2dMeEVvc0Z0aFRwd1Y1VGc9PSIsInZhbHVlIjoidFVJY2hRYjB3KzU1eVJCQWx0Q1V6MWVwYWJnUFhvNTVPRURJdGZ5TzJ2Q0wrUnBDSDAvb2FuM0xTWVhsNnpwOG5OQjQwUnh0dmNrRUcyeDRaQkhnT25taU1XUHd0bjVhTTdRVzIrSkRpUkQyZlMwZVQxWmR2Qmg1cjVNSUJ5YjQiLCJtYWMiOiI4OGE5YThkZmJmNjhmZjlkM2RmNTIxMzhhMWVmNGQ1ODdiYzkyYTQwNzdjZTQ3YTRmYTk0MWQ5NDBiNDNmMTBkIiwidGFnIjoiIn0%3D; _dd_s=logs=1&id=2217c0cd-27b1-421a-a262-61390efa5b89&created=1790513147587&expire=1790514604667
+    - name: origin
+      value: https://ecar-dev.dpsb.ir
+    - name: priority
+      value: u=0, i
+    - name: referer
+      value: https://ecar-dev.dpsb.ir/admin
+    - name: sec-ch-ua
+      value: '"Chromium";v="154", "Google Chrome";v="154", "Not A(Brand";v="99"'
+    - name: sec-ch-ua-mobile
+      value: ?0
+    - name: sec-ch-ua-platform
+      value: '"Windows"'
+    - name: sec-fetch-dest
+      value: document
+    - name: sec-fetch-mode
+      value: navigate
+    - name: sec-fetch-site
+      value: same-origin
+    - name: sec-fetch-user
+      value: ?1
+    - name: upgrade-insecure-requests
+      value: "1"
+    - name: user-agent
+      value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36
+  body:
+    type: form-urlencoded
+    data:
+      - name: _token
+        value: "{{Token}}"
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        const responseTime = res.getResponseTime();
+
+
+
+        const jsonData = res.getBody();
+
+        if (res.status === 200) {
+          test("The user logged in successfully", () => {
+            expect(res.status).to.equal(200);
+             console.log("The user logged in successfully");
+          });
+        } else {
+          test("The user is not logged in", () => {
+            expect(res.status).to.not.equal(200);
+            console.log("The user is not logged in");
+          });
+        }
+
+
+
+
+        test("Response time is less than 500ms", () => {
+          expect(res.responseTime ).to.be.below(500);
+          
+        });
+
+settings:
+  encodeUrl: false
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

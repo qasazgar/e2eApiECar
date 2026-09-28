@@ -1,0 +1,16 @@
+name: Ecar
+variables:
+  - name: Access
+    value: amplitude_idundefineddpsb.ir=eyJvcHRPdXQiOmZhbHNlLCJzZXNzaW9uSWQiOm51bGwsImxhc3RFdmVudFRpbWUiOm51bGwsImV2ZW50SWQiOjAsImlkZW50aWZ5SWQiOjAsInNlcXVlbmNlTnVtYmVyIjowfQ==; ajs_user_id=b9d894e548f9d020b13577518957928e635161cb922be28b22da64be104b54fb; ajs_anonymous_id=167615b8-5cce-450b-a647-e2bf0ea9966b; ajs_group_id=BEW1-OXXH-RIZ6-B6K4; amplitude_id_cf620211dc906be4ab7c92f52766759ddpsb.ir=eyJkZXZpY2VJZCI6ImYyMjFhMDNhLTc0N2MtNGJjMi1iMDcxLTlkMTk0NjhiYWZjZVIiLCJ1c2VySWQiOiJiOWQ4OTRlNTQ4ZjlkMDIwYjEzNTc3NTE4OTU3OTI4ZTYzNTE2MWNiOTIyYmUyOGIyMmRhNjRiZTEwNGI1NGZiIiwib3B0T3V0IjpmYWxzZSwic2Vzc2lvbklkIjoxNzkwNTExNzIyMDUzLCJsYXN0RXZlbnRUaW1lIjoxNzkwNTExNzcxODIzLCJldmVudElkIjo4LCJpZGVudGlmeUlkIjo0LCJzZXF1ZW5jZU51bWJlciI6MTJ9; dotone_locale=fa; XSRF-TOKEN=eyJpdiI6Ii85SFNrNVZXWDJiaE85ckcxYjBUQXc9PSIsInZhbHVlIjoiRjErdGtzMm1QaEo1UDJaRXl2eXBsQkpWZkl3K2d5d3B0RVFEQUsvbXdBL1UrVmhZSEtqR2xGTTRnbS9zNVdablE1K3ZqUHdjeitkV0xGTU9PempYWERGVmR5SWhOQ2tGclB2Z2kva3JkTFhZTkdTTEhqZmJKYVlJWTBQajlPYnUiLCJtYWMiOiIwOTkyYmJiNjA1YjlmNjJjNzhjZjA1MTA5YmZjMjNmNjliYWU0YTQ1ZTU3MWYxMzYwZDVjZjdiOWVkMjk5OTNkIiwidGFnIjoiIn0%3D; samanh-frosh-khodro-session=eyJpdiI6IndBaU94TmNDbmkxSTZNbFpJSTFjdVE9PSIsInZhbHVlIjoiNll6RG9MOEFrekorTVZrbk80cTRDZU80NHZrWU5OL1FScHgyd2taTUJWbFp5QlRoeXpSMG00ei9ncEdKN3pmdzRsQm1ienZGSlVNL1Q4aEppV1dSNDJ1Y3lucTBMUUpRbnczRzlWR2ZxTXVBL0Y5ZG5xOVlOMVNQRnVvc3RWc1giLCJtYWMiOiI0MTAzYmRlOTliYmFmNWM5NDZiMjUzYjEzZTA3MGMzNTNhNjQ1ZmQ0MTljYjNhNWNjNDM3YTQxMWJmMzIxNmI2IiwidGFnIjoiIn0%3D; _dd_s=logs=1&id=2217c0cd-27b1-421a-a262-61390efa5b89&created=1790513147587&expire=1790514496117
+  - name: Token
+    value: eiIBF8o4aDVVFVnJTwKcdGJlOGOyKxB6ft6gcCoj
+  - name: email
+    value: admin@dotone.local
+  - name: password
+    value: password
+  - name: method
+    value: authenticate
+  - name: Snapshot
+    value: '{\"data\":{\"data\":[{\"email\":null,\"password\":null,\"remember\":false},{\"s\":\"arr\"}],\"userUndertakingMultiFactorAuthentication\":null,\"mountedActions\":[[],{\"s\":\"arr\"}],\"defaultAction\":null,\"defaultActionArguments\":null,\"defaultActionContext\":null,\"defaultTableAction\":null,\"defaultTableActionRecord\":null,\"defaultTableActionArguments\":null,\"componentFileAttachments\":[[],{\"s\":\"arr\"}],\"areSchemaStateUpdateHooksDisabledForTesting\":false,\"discoveredSchemaNames\":[[\"form\",\"content\"],{\"s\":\"arr\"}]},\"memo\":{\"id\":\"3OaxBZVGmnxRhyv3e86V\",\"name\":\"Filament\\\\Auth\\\\Pages\\\\Login\",\"path\":\"admin\\/login\",\"method\":\"GET\",\"release\":\"a-a-a\",\"children\":[],\"scripts\":[],\"assets\":[],\"errors\":[],\"locale\":\"fa\",\"islands\":[]},\"checksum\":\"ec288f35c8c0fd554c5f6a0cc3f2ad31cbd60a6cbbefc7ab122c2c1c1f6ddcbe\"}'
+  - name: randomCarName
+    value: نیسان جوک

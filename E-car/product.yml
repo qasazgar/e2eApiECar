@@ -1,0 +1,122 @@
+info:
+  name: product
+  type: http
+  seq: 3
+
+http:
+  method: post
+  url: https://ecar-dev.dpsb.ir/livewire-becf286a/update
+  headers:
+    - name: accept
+      value: "*/*"
+    - name: accept-language
+      value: en-US,en;q=0.9
+    - name: cache-control
+      value: no-cache
+    - name: content-type
+      value: application/json
+    - name: Cookie
+      value: amplitude_idundefineddpsb.ir=eyJvcHRPdXQiOmZhbHNlLCJzZXNzaW9uSWQiOm51bGwsImxhc3RFdmVudFRpbWUiOm51bGwsImV2ZW50SWQiOjAsImlkZW50aWZ5SWQiOjAsInNlcXVlbmNlTnVtYmVyIjowfQ==; ajs_user_id=b9d894e548f9d020b13577518957928e635161cb922be28b22da64be104b54fb; ajs_anonymous_id=167615b8-5cce-450b-a647-e2bf0ea9966b; ajs_group_id=BEW1-OXXH-RIZ6-B6K4; dotone_locale=fa; amplitude_id_cf620211dc906be4ab7c92f52766759ddpsb.ir=eyJkZXZpY2VJZCI6ImYyMjFhMDNhLTc0N2MtNGJjMi1iMDcxLTlkMTk0NjhiYWZjZVIiLCJ1c2VySWQiOiJiOWQ4OTRlNTQ4ZjlkMDIwYjEzNTc3NTE4OTU3OTI4ZTYzNTE2MWNiOTIyYmUyOGIyMmRhNjRiZTEwNGI1NGZiIiwib3B0T3V0IjpmYWxzZSwic2Vzc2lvbklkIjoxNzkwNTE1NjY4MDk0LCJsYXN0RXZlbnRUaW1lIjoxNzkwNTE1NjY4MDk0LCJldmVudElkIjo4LCJpZGVudGlmeUlkIjo0LCJzZXF1ZW5jZU51bWJlciI6MTJ9; __Secure-dotone=eyJhbGciOiJFUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJmMDh6dE16dXZSYkpxQjhfdmZRNl9iTWY0UjgyWE9MZ1p2bG1uN0pwT0JzIn0.eyJleHAiOjE3OTA1MTgzNDUsImlhdCI6MTc5MDUxNzQ0NSwianRpIjoib25ydHJ0OjY4N2MyMWYzLWY5YWUtNzNhNi1mMjZlLTVhZWJjYzM5ZDUxMCIsImlzcyI6Imh0dHBzOi8vYWNjb3VudHMuZHBzYi5pci9yZWFsbXMvZG90b25lIiwiYXVkIjoidm9kIiwic3ViIjoiNmQwMmQ1NmQtMWRlOC00YzE2LThiZjMtYTUwZDIxNWQwZTRhIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoid2ViLXZvZCIsInNpZCI6IkhIWDdOZnR5ekhPVjZRakVUaXpJS1BRcSIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsidXNlciJdfSwic2NvcGUiOiJvcGVuaWQgYXVkLXZvZCJ9.0tSVRBJSoopvNW0sxqMLqtUoCyDxz6aRKgNsiqF76ojwOj4TQvDtiyUeSYRUPWY_1h6smb3T6RkUr5oxOzEvsA; XSRF-TOKEN=eyJpdiI6IndMS0ZaQm1Ld2FVZGI1ZXFqTTNLM2c9PSIsInZhbHVlIjoiekljL09iYTJ4THNCajZDMGNOcVJRajR4c2UxdGlxcUZMM3dWMHJlb2dsSXRrYWY2RjFpSW5QRjJvUDBuSU01eWpvVDc4am9CVU9wUjJ4d2tLK2ZTbm5UTnhpVWVWQVNIOFhmSm9QbXFmQTZWcm9xZVdRRGtPd3ZRUUVsVEFFUkoiLCJtYWMiOiI5ZDU4YWVlZDRhNzU1MTM4MjExYjQwZmZiOGE4NGNkNmYzZmI2Y2U3MWI4MmQyYzdhZDkwZTU5ZWM0ZDFhNWUzIiwidGFnIjoiIn0%3D; samanh-frosh-khodro-session=eyJpdiI6IksvQlJ5amIwNXJGL201Y21TZlFQVHc9PSIsInZhbHVlIjoicVlOb2xVQ3RWMDA5OEVMcFlPM2djSnFGeG9ibXByb2dVSXlzTzdicmhncEU5N0FZMVlGTlA3bWlGaGRVdXdTWWhjNG1haW05TTJBMVlTNkx2ZzNWZktYMmR5MUpRaUpBblBqcjlPN1BkVWhUTHQ3YWpFMmJ1Wk0zdnlUTThXRjciLCJtYWMiOiIwYTYzYzQ3NGZhMzA0ZDVlZDgxOTAzZWViMjdjOGFiN2FlYzdhNWNkNTMyZDg4MWRlZThiNjNiNmQ3NDljNTgzIiwidGFnIjoiIn0%3D; _dd_s=logs=1&id=f2e18b16-42a2-45f2-a548-7d771db80659&created=1790517491070&expire=1790518429630
+    - name: origin
+      value: https://ecar-dev.dpsb.ir
+    - name: pragma
+      value: no-cache
+    - name: priority
+      value: u=1, i
+    - name: referer
+      value: https://ecar-dev.dpsb.ir/admin/products/create
+    - name: sec-ch-ua
+      value: '"Chromium";v="154", "Google Chrome";v="154", "Not A(Brand";v="99"'
+    - name: sec-ch-ua-mobile
+      value: ?0
+    - name: sec-ch-ua-platform
+      value: '"Windows"'
+    - name: sec-fetch-dest
+      value: empty
+    - name: sec-fetch-mode
+      value: cors
+    - name: sec-fetch-site
+      value: same-origin
+    - name: user-agent
+      value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36
+    - name: x-livewire
+      value: "1"
+  body:
+    type: json
+    data: |-
+      {
+        "_token": "{{Access}}",
+        "components": [
+          {
+            "snapshot": "{{Snapshot}}",
+            "updates": {
+              "data.name": "{{randomCarName}}"
+            },
+            "calls": [
+              {
+                "method": "create",
+                "params": [],
+                "metadata": {}
+              }
+            ]
+          }
+        ]
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: before-request
+      code: |-
+        // List of sample car names to randomly choose from
+        const carNames = [
+            "پراید",
+            "پژو 405",
+            "پژو 206",
+            "پژو 207",
+            "پژو پارس",
+            "سمند",
+            "تیبا",
+            "رنو تندر 90",
+            "رنو ساندرو",
+            "دنا",
+            "کوییک",
+            "شاهین",
+            "مزدا 3",
+            "هیوندای سوناتا",
+            "کیا سراتو",
+            "تویوتا کمری",
+            "نیسان جوک"
+        ];
+
+        // Pick one at random
+        const randomCarName = carNames[Math.floor(Math.random() * carNames.length)];
+
+        // Save it as an environment variable (persists in the active environment)
+        bru.setEnvVar("randomCarName", randomCarName);
+
+        // Optional: log it to the Bruno console for debugging
+        console.log("Selected car name:", randomCarName);
+    - type: after-response
+      code: |-
+        // post-response script on the GET /admin/products/create request
+        const html = res.getBody();
+
+        // crude extraction — adjust the regex to match the actual attribute in the HTML
+        const match = html.match(/wire:snapshot="([^"]+)"/);
+        if (match) {
+            const snapshot = match[1]
+                .replace(/&quot;/g, '"')
+                .replace(/&amp;/g, '&');
+            bru.setEnvVar("Snapshot", snapshot);
+            console.log("Captured fresh snapshot for CreateProduct page");
+        } else {
+            console.warn("Could not find wire:snapshot in page HTML — selector may need updating");
+        }
+
+settings:
+  encodeUrl: false
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

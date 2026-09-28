@@ -1,0 +1,79 @@
+info:
+  name: Products
+  type: http
+  seq: 2
+
+http:
+  method: get
+  url: https://ecar-dev.dpsb.ir/admin/products
+  headers:
+    - name: accept
+      value: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+    - name: accept-language
+      value: en-US,en;q=0.9
+    - name: cache-control
+      value: no-cache
+    - name: Cookie
+      value: "{{Access}}"
+    - name: pragma
+      value: no-cache
+    - name: priority
+      value: u=0, i
+    - name: referer
+      value: https://ecar-dev.dpsb.ir/admin/products
+    - name: sec-ch-ua
+      value: '"Chromium";v="154", "Google Chrome";v="154", "Not A(Brand";v="99"'
+    - name: sec-ch-ua-mobile
+      value: ?0
+    - name: sec-ch-ua-platform
+      value: '"Windows"'
+    - name: sec-fetch-dest
+      value: document
+    - name: sec-fetch-mode
+      value: navigate
+    - name: sec-fetch-site
+      value: same-origin
+    - name: sec-fetch-user
+      value: ?1
+    - name: upgrade-insecure-requests
+      value: "1"
+    - name: user-agent
+      value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        const responseTime = res.getResponseTime();
+
+
+
+        const jsonData = res.getBody();
+
+        if (res.status === 200) {
+          test("The user logged in successfully", () => {
+            expect(res.status).to.equal(200);
+             console.log("The user logged in successfully");
+          });
+        } else {
+          test("The user is not logged in", () => {
+            expect(res.status).to.not.equal(200);
+            console.log("The user is not logged in");
+          });
+        }
+
+
+
+
+        test("Response time is less than 500ms", () => {
+          expect(res.responseTime ).to.be.below(500);
+          
+        });
+
+settings:
+  encodeUrl: false
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
