@@ -1,0 +1,14 @@
+opencollection: 1.0.0
+info:
+  name: "E-Car"
+  type: workspace
+
+collections:
+  - name: "E-car"
+    path: "collections/E-car"
+  - name: "VOD"
+    path: "../../APIVOD/apiVoD"
+
+specs:
+
+docs: ''
