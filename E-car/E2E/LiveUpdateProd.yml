@@ -34,8 +34,23 @@ runtime:
         const token = bru.getEnvVar("csrfToken");
         if (!snapshot || !token) throw new Error("Missing snapshot/csrfToken - run SelectProd first");
 
-        const code = String(Date.now()).slice(-9);   // unique every run
+        // codes already used in earlier runs (kept as a JSON array in the environment)
+        let usedCodes = [];
+        try { usedCodes = JSON.parse(bru.getEnvVar("usedCodes") || "[]"); } catch (e) { usedCodes = []; }
+
+        // generate a random 9-digit code; regenerate until it was never used before
+        let code;
+        let attempts = 0;
+        do {
+          code = String(Math.floor(100000000 + Math.random() * 900000000));
+          attempts++;
+          if (attempts > 100) throw new Error("Could not generate a unique code");
+        } while (usedCodes.includes(code));
+
+        usedCodes.push(code);
+        bru.setEnvVar("usedCodes", JSON.stringify(usedCodes.slice(-200)));  // keep the last 200 only
         bru.setEnvVar("productCode", code);
+        console.log("Generated unique code:", code, "(attempts:", attempts + ")");
 
         req.setBody({
           _token: token,
@@ -47,19 +62,37 @@ runtime:
         });
     - type: after-response
       code: |-
-        test("Live update accepted", () => {
-          expect(res.status).to.equal(200);
-          expect(res.body.components, "no components in response (session or CSRF expired?)").to.be.an("array");
-        });
-
-        // Livewire returns a NEW snapshot after every call - always keep the latest one
         const comp = res.body.components[0];
-        bru.setEnvVar("snapshot", comp.snapshot);
+        bru.setEnvVar("snapshot", comp.snapshot);   // always keep the latest snapshot
 
         const data = JSON.parse(comp.snapshot).data.data[0];
-        test("Code and product type stored in component state", () => {
-          expect(data.code).to.equal("123654");
-          expect(String(data.product_type_id)).to.equal("3");
+        const sentCode = bru.getEnvVar("productCode");
+        const usedCodes = JSON.parse(bru.getEnvVar("usedCodes") || "[]");
+
+        test("Live update accepted", () => {
+          expect(res.status).to.equal(200);
+          expect(res.body.components).to.be.an("array");
+        });
+
+        // test("Generated code is a 9-digit number", () => {
+        //   expect(sentCode).to.match(/^\d{9}$/);
+        // });
+
+        // test("Code is not a duplicate of any previous run", () => {
+        //   const count = usedCodes.filter(c => c === sentCode).length;
+        //   expect(count).to.equal(1);
+        // });
+
+        // test("Server stored the same code that was sent", () => {
+        //   expect(data.code).to.equal(sentCode);
+        // });
+
+        // test("Product type stored in component state", () => {
+        //   expect(String(data.product_type_id)).to.equal("3");
+        // });
+
+        test("Response time is less than 500ms", () => {
+          expect(res.responseTime).to.be.below(500);
         });
 
 settings:

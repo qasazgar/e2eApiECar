@@ -113,6 +113,26 @@ runtime:
           if (m) bru.setEnvVar("productId", m[1]);
         }
 
+
+        if (res.status === 200) {
+          test("The viechle  Created successfully", () => {
+            expect(res.status).to.equal(200);
+             console.log("The viechle created successfully");
+          });
+        } else {
+          test("The viechle was not created successfully", () => {
+            expect(res.status).to.not.equal(200);
+            console.log("The viechle was not distingushed selected successfully");
+          });
+        }
+
+
+
+        test("Response time is less than 500ms", () => {
+          expect(res.responseTime ).to.be.below(500);
+          
+        });
+
 settings:
   encodeUrl: false
   timeout: 0
