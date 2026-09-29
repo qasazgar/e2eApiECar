@@ -14,13 +14,13 @@ http:
     - name: cache-control
       value: no-cache
     - name: Cookie
-      value: ajs_user_id=b9d894e548f9d020b13577518957928e635161cb922be28b22da64be104b54fb; ajs_anonymous_id=167615b8-5cce-450b-a647-e2bf0ea9966b; ajs_group_id=BEW1-OXXH-RIZ6-B6K4; dotone_locale=fa; remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d=eyJpdiI6IkkreXdQcjNPZ2lLRExaenMxYWRYVXc9PSIsInZhbHVlIjoibnQ3T3ZHUFVwTDFhUkhUai9mdUJKOUNHcUJqckN4OEViUG42MjMrVG92amZzNkJmNEo2Qlhyd2dCeE0wckFvV0svNGYrdnErNk9iR1MybTMrcnRaQ0RMeW1KdkVYZDErUytUN211bjdQeTl4VVhWaGViVGhta254WXRIc2dPS1lITzFwQzBNVTBZV0cwVjB1Z0k1aVZsQUJ5WWcvejl5eWxVUVU4TGVwREdKN0dnN2VHOTZ4M1FsbWRiMWlSS2RhckE0NlV6clkvaThTVnY1NmtYdkxXRk9rOE5uUHIwQW9iWHFkWHdIdUcwcz0iLCJtYWMiOiIyM2Y3ZTIyNTBjZDI5ZTI4NGY2ZmY2ZDE2NjFhZWIxZDk4NmFkZTlmZjg5MDc4ODFmZmJiM2Y4YWVmMDc1MTU2IiwidGFnIjoiIn0%3D; amplitude_idundefineddpsb.ir=eyJvcHRPdXQiOmZhbHNlLCJzZXNzaW9uSWQiOm51bGwsImxhc3RFdmVudFRpbWUiOm51bGwsImV2ZW50SWQiOjAsImlkZW50aWZ5SWQiOjAsInNlcXVlbmNlTnVtYmVyIjowfQ==; amplitude_id_cf620211dc906be4ab7c92f52766759ddpsb.ir=eyJkZXZpY2VJZCI6ImYyMjFhMDNhLTc0N2MtNGJjMi1iMDcxLTlkMTk0NjhiYWZjZVIiLCJ1c2VySWQiOiJiOWQ4OTRlNTQ4ZjlkMDIwYjEzNTc3NTE4OTU3OTI4ZTYzNTE2MWNiOTIyYmUyOGIyMmRhNjRiZTEwNGI1NGZiIiwib3B0T3V0IjpmYWxzZSwic2Vzc2lvbklkIjoxNzkwNjc2MTg3OTE2LCJsYXN0RXZlbnRUaW1lIjoxNzkwNjc4NDA0NTAwLCJldmVudElkIjo4LCJpZGVudGlmeUlkIjo0LCJzZXF1ZW5jZU51bWJlciI6MTJ9; _dd_s=logs=1&id=0bf312d3-e581-4b92-a721-555b01226b2b&created=1790680474659&expire=1790681374659
+      value: "{{Access}}"
     - name: pragma
       value: no-cache
     - name: priority
       value: u=0, i
     - name: referer
-      value: https://ecar-dev.dpsb.ir/admin/campaigns
+      value: "{{ecarURL}}/admin/campaigns"
     - name: sec-ch-ua
       value: '"Chromium";v="154", "Google Chrome";v="154", "Not A(Brand";v="99"'
     - name: sec-ch-ua-mobile
@@ -40,6 +40,20 @@ http:
     - name: user-agent
       value: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36
   auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        test("The campaign page is found", () => {
+          expect(res.status).to.equal(200);
+        });
+
+
+        test("Response time is less than 500ms", () => {
+          expect(res.responseTime ).to.be.below(500);
+          
+        });
 
 settings:
   encodeUrl: false

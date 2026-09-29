@@ -63,6 +63,11 @@ runtime:
           console.log("csrfToken and listSnapshot saved");
         }
 
+        test("Response time is less than 500ms", () => {
+          expect(res.responseTime ).to.be.below(500);
+          
+        });
+
 settings:
   encodeUrl: false
   timeout: 0
