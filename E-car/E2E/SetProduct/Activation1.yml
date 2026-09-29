@@ -1,7 +1,7 @@
 info:
-  name: Activation2
+  name: Activation1
   type: http
-  seq: 7
+  seq: 1
 
 http:
   method: post
@@ -43,60 +43,65 @@ http:
       value: "1"
   body:
     type: json
-    data: |-
-      {}
+    data: "{}"
   auth: inherit
 
 runtime:
   scripts:
     - type: before-request
       code: |-
-        // Step 2 of activation: confirm the modal that Activation1 opened
-        const snapshot = bru.getEnvVar("activationSnapshot");
+        // Step 1 of activation: click the "activate" action on the row of the product created by SaveProd
+        const listSnapshot = bru.getEnvVar("listSnapshot");
         const token = bru.getEnvVar("csrfToken");
+        const productId = bru.getEnvVar("productId");
 
-        if (!snapshot || !token) {
-          throw new Error("Missing activationSnapshot/csrfToken - run OpenProductsList and Activation1 first");
+        if (!listSnapshot || !token) {
+          throw new Error("Missing listSnapshot/csrfToken - run OpenProductsList first");
+        }
+        if (!productId) {
+          throw new Error("Missing productId - run SaveProd first (it saves the new product id)");
         }
 
         req.setBody({
           _token: token,
           components: [
             {
-              snapshot: snapshot,
+              snapshot: listSnapshot,
               updates: {},
               calls: [
-                { method: "callMountedAction", params: [], metadata: {} }
+                {
+                  method: "mountAction",
+                  params: [
+                    "activate",
+                    {},
+                    { recordKey: String(productId), table: true }
+                  ],
+                  metadata: {}
+                }
               ]
             }
           ]
         });
     - type: after-response
       code: |-
-        test("Activation request accepted", () => {
+        const productId = String(bru.getEnvVar("productId"));
+
+        test("Activate action mounted (request accepted)", () => {
           expect(res.status).to.equal(200);
           expect(res.body.components, "no components in response (session or CSRF expired?)").to.be.an("array");
         });
 
         const comp = res.body.components[0];
-        const effects = comp.effects || {};
-        const memo = JSON.parse(comp.snapshot).memo;
 
-        console.log("errors:", JSON.stringify(memo.errors));
-        console.log("effects keys:", Object.keys(effects).join(", "));
-        console.log("dispatches:", JSON.stringify(effects.dispatches || []).slice(0, 500));
+        // Livewire returns a NEW snapshot - it now contains the mounted "activate" action
+        bru.setEnvVar("activationSnapshot", comp.snapshot);
 
-        test("No validation errors", () => {
-          expect(Object.keys(memo.errors || {}).length).to.equal(0);
+        test("Activate action is mounted for the new product", () => {
+          expect(comp.snapshot.includes('"name":"activate"')).to.equal(true);
+          expect(comp.snapshot.includes('"recordKey":"' + productId + '"')).to.equal(true);
         });
 
-        // After a successful action Filament closes the modal, so "activate" is no longer mounted
-        test("Activate action executed (modal closed)", () => {
-          expect(comp.snapshot.includes('"name":"activate"')).to.equal(false);
-        });
-
-        // keep the fresh list snapshot for the next action in the same run
-        bru.setEnvVar("listSnapshot", comp.snapshot);
+        console.log("Activate action mounted for product", productId);
 
 settings:
   encodeUrl: false
